@@ -10,17 +10,40 @@ class AlunoController extends Controller
 
     function index()
     {
+        $dados = Aluno::all(); //select * from aluno
 
-        return view('aluno.list');
+        // dd($dados);
+        //var_dump($dados);
+        //  exit;
+
+        return view('aluno.list', ['dados' => $dados]);
     }
 
     function create()
     {
-        Aluno::create([
-            'nome' => 'João',
-            'cpf' => '123.456.789-00',
-            'telefone' => '123456789'
+        return view('aluno.form');
+    }
+
+    function store(Request $request)
+    {
+        $request->validate([
+            'nome' => 'required',
+            'cpf' => 'required',
+        ], [
+            'nome' => "O :attribute é obrigatório",
+            'cpf' => "O :attribute é obrigatório",
         ]);
-        //return view('aluno.create');
+
+        //dd($request->all());
+        /*
+        Aluno::create([
+            'nome' => $request->nome,
+            'cpf' => $request->cpf,
+            'telefone' => $request->telefone
+        ]);
+        */
+        Aluno::create($request->all());
+
+        return redirect('aluno');
     }
 }
