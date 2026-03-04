@@ -6,7 +6,8 @@
 
     <div class="row">
         <div class="col">
-            <form action="" method="post">
+            <form action="{{ route('aluno.search') }}" method="post">
+                @csrf
                 <div class="row">
 
                     <div class="col-md-3">
@@ -41,6 +42,8 @@
                         <th scope="col">Nome</th>
                         <th scope="col">CPF</th>
                         <th scope="col">Telefone</th>
+                        <th scope="col">Ação</th>
+                        <th scope="col">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,6 +53,16 @@
                             <td>{{ $item->nome }}</td>
                             <td>{{ $item->cpf }}</td>
                             <td>{{ $item->telefone }}</td>
+                            <td><a href="{{ route('aluno.edit', $item->id) }}" class="btn btn-warning">Editar</a></td>
+                            <td>
+                                <form action="{{ route('aluno.destroy', $item->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger"
+                                        onclick="return confirm('Deseja remover o registro?')">
+                                        Deletar</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
