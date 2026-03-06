@@ -24,6 +24,9 @@ Código-Fonte do Projeto desenvolvido durante as aulas de programação web 2 co
 **Ou criar as tabelas e insere os registros no banco de dados do projeto**  
 `php artisan migrate --seed` 
 
+**Se ainda apresentar erro 500, deve gerar a key do projeto**  
+`php artisan key:generate` 
+
 **4. Iniciar o sistema**  
 `php artisan serve`
 
