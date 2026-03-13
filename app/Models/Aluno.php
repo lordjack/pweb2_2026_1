@@ -11,6 +11,13 @@ class Aluno extends Model
     protected $fillable = [
         'nome',
         'cpf',
-        'telefone'
+        'telefone',
+        'imagem',
+        'categoria_id',
+
     ];
+    public function categoria()
+    {
+        return $this->belongsTo(CategoriaAluno::class, 'categoria_id');
+    }
 }
