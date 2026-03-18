@@ -51,7 +51,7 @@
                 @php
                     $nome_imagem = !empty($dado->imagem) ? $dado->imagem : 'sem_imagem.png';
                 @endphp
-                <img src="/storage/{{ $nome_imagem }}" width="200px" height="200px" alt="imagem">
+                <img src="/storage/{{ $nome_imagem }}" class="rounded-circle" width="200px" height="200px" alt="imagem">
                 <input type="file" name="imagem" class="form-control" value="{{ old('imagem', $dado->imagem ?? '') }}">
             </div>
         </div>
