@@ -58,7 +58,7 @@ class AlunoController extends Controller
 
         Aluno::create($data);
 
-        return redirect('aluno');
+        return redirect('aluno')->with('success', 'Registro cadastrado com sucesso!');
     }
 
     function edit($id)
@@ -89,13 +89,13 @@ class AlunoController extends Controller
 
         Aluno::find($id)->update($data);
 
-        return redirect('aluno');
+        return redirect('aluno')->with('success', 'Registro atualizado com sucesso!');
     }
 
     function destroy($id)
     {
         Aluno::destroy($id);
-        return redirect('aluno');
+        return redirect('aluno')->with('success', 'Registro removido com sucesso!');
     }
 
     function search(Request $request)

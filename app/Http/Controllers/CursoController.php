@@ -40,7 +40,7 @@ class CursoController extends Controller
 
         Curso::create($data);
 
-        return redirect('curso');
+        return redirect('curso')->with('success', 'Registro cadastrado com sucesso!');
     }
 
     function edit($id)
@@ -59,13 +59,19 @@ class CursoController extends Controller
 
         Curso::find($id)->update($data);
 
-        return redirect('curso');
+        return redirect('curso')->with('success', 'Registro atualizado com sucesso!');
     }
 
     function destroy($id)
     {
-        Curso::destroy($id);
-        return redirect('curso');
+        $dado = Curso::find($id);
+
+        if ($dado->turmas->count() > 0) {
+            return redirect('curso')->with('error', 'Não é possível excluir o curso pois há turmas vinculadas a ela.');
+        }
+        $dado->delete();
+
+        return redirect('curso')->with('success', 'Registro removido com sucesso!');
     }
 
     function search(Request $request)

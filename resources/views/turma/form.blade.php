@@ -2,13 +2,17 @@
 @section('titulo', 'Formulário Turma')
 @section('conteudo')
 
-    <h4>Formulário Turma - Curso: {{ $curso->nome ?? '' }}</h4>
+    @php
+        $curso = isset($curso) ? $curso : request()->curso;
+    @endphp
 
-    @dd($curso)
+    <h4>Formulário Turma - Curso: {{ $curso->nome ?? '' }}</h4>
 
     @php
         if (!empty($dado->id)) {
             $action = route('turma.update', $dado->id);
+            $data_inicio = date('d/m/Y', strtotime($dado->data_inicio));
+            $data_fim = date('d/m/Y', strtotime($dado->data_fim));
         } else {
             $action = route('turma.store');
         }
@@ -33,19 +37,19 @@
             <div class="col">
                 <label class="form-label" for="data_inicio">Data Início</label>
                 <input type="date" class="form-control" name="data_inicio"
-                    value="{{ old('data_inicio', $dado->data_inicio ?? '') }}">
+                    value="{{ old('data_inicio', $data_inicio ?? '') }}">
             </div>
             <div class="col">
                 <label class="form-label" for="data_fim">Data Fim</label>
-                <input type="date" class="form-control" name="data_fim"
-                    value="{{ old('data_fim', $dado->data_fim ?? '') }}">
+                <input type="date" class="form-control" name="data_fim" value="{{ old('data_fim', $data_fim ?? '') }}">
             </div>
         </div>
 
         <div class="row">
             <div class="col">
                 <button type="submit" class="btn btn-success">Salvar</button>
-                <a href="{{ url('turma') }}" class="btn btn-primary">Voltar</a>
+                <a href="{{ route('curso.turmas', isset($dado) ? $dado->curso_id : $curso->id) }}"
+                    class="btn btn-primary">Voltar</a>
             </div>
         </div>
     </form>

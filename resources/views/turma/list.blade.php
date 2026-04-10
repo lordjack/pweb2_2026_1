@@ -9,13 +9,12 @@
             <form action="{{ route('turma.search') }}" method="post">
                 @csrf
                 <div class="row">
-
+                    <input type="hidden" name="curso_id" value="{{ $curso->id }}">
                     <div class="col-md-2">
                         <label class="form-label">Tipo</label>
                         <select name="tipo" class="form-select">
                             <option value="nome">Nome</option>
-                            <option value="cpf">CPF</option>
-                            <option value="telefone">Telefone</option>
+                            <option value="codigo">Código</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -26,11 +25,10 @@
                         <button type="submit" class="btn btn-primary"> Buscar</button>
                     </div>
                     <div class="col-2">
-                        <a href="{{ route('curso.turmas.create', $curso->id) }}" class="btn btn-success"> Novo</a>
+                        <a href="{{ route('curso.turmas.create', $curso) }}" class="btn btn-success"> Novo</a>
                     </div>
                     <div class="col-2">
-                        <a href="{{ route('curso.turmas', isset($dado) ? $dado->curso_id : $curso->id) }}"
-                            class="btn btn-secondary">
+                        <a href="{{ url('curso') }}" class="btn btn-secondary">
                             Voltar</a>
                     </div>
                 </div>

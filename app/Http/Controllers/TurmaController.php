@@ -20,6 +20,7 @@ class TurmaController extends Controller
 
     function create(Curso $curso)
     {
+        // dd($curso);
         return view('turma.form', ['curso', $curso]);
     }
 
@@ -39,15 +40,18 @@ class TurmaController extends Controller
 
         $turma = Turma::create($data);
 
-        return redirect()->route('curso.turmas', $turma->curso_id);
+        return redirect()->route('curso.turmas', $turma->curso_id)
+            ->with('success', 'Registro cadastrado com sucesso!');
     }
 
     function edit($id)
     {
         $dado = Turma::find($id);
+        $curso = Curso::findOrFail($dado->curso_id);
 
         return view('turma.form', [
             'dado' => $dado,
+            'curso' => $curso,
         ]);
     }
 
@@ -56,9 +60,10 @@ class TurmaController extends Controller
         $this->validateRequest($request);
         $data = $request->all();
 
-        $turma = Turma::find($id)->update($data);
+        Turma::find($id)->update($data);
 
-        return redirect()->route('curso.turmas', $turma->curso_id);
+        return redirect()->route('curso.turmas', $data['curso_id'])
+            ->with('success', 'Registro atualizado com sucesso!');
     }
 
     function destroy($id)
@@ -67,21 +72,27 @@ class TurmaController extends Controller
 
         $dado->delete();
 
-        return redirect()->route('curso.turmas', $dado->curso_id);
+        return redirect()->route('curso.turmas', $dado->curso_id)
+            ->with('success', 'Registro removido com sucesso!');
     }
 
     function search(Request $request)
     {
+        $curso = Curso::findOrFail($request->curso_id);
+
         if (!empty($request->valor)) {
-            $dados = Turma::where(
+            $dados = Turma::where('curso_id', $curso->id)->where(
                 $request->tipo,
                 'like',
                 '%' . $request->valor . '%'
             )->get();
         } else {
-            $dados = Turma::all();
+            $dados = Turma::where('curso_id', $curso->id)->orderBy('nome')->get();
         }
 
-        return view('turma.list', ['dados' => $dados]);
+        return view('turma.list', [
+            'dados' => $dados,
+            'curso' => $curso
+        ]);
     }
 }
